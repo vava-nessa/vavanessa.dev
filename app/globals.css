@@ -12,47 +12,47 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* 📖 Animation definitions for gradient background */
-  --animate-first: moveVertical 30s ease infinite;
-  --animate-second: moveInCircle 20s reverse infinite;
-  --animate-third: moveInCircle 40s linear infinite;
-  --animate-fourth: moveHorizontal 40s ease infinite;
-  --animate-fifth: moveInCircle 20s ease infinite;
+  /* 📖 Animation definitions for gradient background - faster for more visible movement */
+  --animate-first: moveVertical 10s ease-in-out infinite;
+  --animate-second: moveInCircle 8s reverse infinite;
+  --animate-third: moveInCircle 12s linear infinite;
+  --animate-fourth: moveHorizontal 15s ease-in-out infinite;
+  --animate-fifth: moveInCircle 7s ease infinite;
 
-  /* 📖 Keyframes for gradient movement animations */
+  /* 📖 Keyframes for gradient movement animations - increased range for more visible movement */
   @keyframes moveHorizontal {
     0% {
-      transform: translateX(-50%) translateY(-10%);
+      transform: translateX(-80%) translateY(-20%);
     }
     50% {
-      transform: translateX(50%) translateY(10%);
+      transform: translateX(80%) translateY(20%);
     }
     100% {
-      transform: translateX(-50%) translateY(-10%);
+      transform: translateX(-80%) translateY(-20%);
     }
   }
 
   @keyframes moveInCircle {
     0% {
-      transform: rotate(0deg);
+      transform: rotate(0deg) translateX(30px);
     }
     50% {
-      transform: rotate(180deg);
+      transform: rotate(180deg) translateX(-30px);
     }
     100% {
-      transform: rotate(360deg);
+      transform: rotate(360deg) translateX(30px);
     }
   }
 
   @keyframes moveVertical {
     0% {
-      transform: translateY(-50%);
+      transform: translateY(-80%) scale(1);
     }
     50% {
-      transform: translateY(50%);
+      transform: translateY(80%) scale(1.1);
     }
     100% {
-      transform: translateY(-50%);
+      transform: translateY(-80%) scale(1);
     }
   }
 }

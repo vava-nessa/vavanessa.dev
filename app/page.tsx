@@ -9,22 +9,24 @@ import { BackgroundGradientAnimation } from "@/components/ui/background-gradient
 export default function Home() {
   return (
     <BackgroundGradientAnimation
-      gradientBackgroundStart="rgb(108, 0, 162)"
-      gradientBackgroundEnd="rgb(0, 17, 82)"
-      firstColor="18, 113, 255"
-      secondColor="221, 74, 255"
-      thirdColor="100, 220, 255"
-      fourthColor="200, 50, 50"
-      fifthColor="180, 180, 50"
-      pointerColor="140, 100, 255"
+      gradientBackgroundStart="rgb(20, 0, 50)"
+      gradientBackgroundEnd="rgb(0, 10, 40)"
+      firstColor="255, 50, 150"
+      secondColor="50, 255, 200"
+      thirdColor="100, 150, 255"
+      fourthColor="255, 100, 50"
+      fifthColor="200, 255, 100"
+      pointerColor="255, 100, 200"
+      size="120%"
+      blendingValue="screen"
       interactive={true}
       containerClassName="z-0"
     >
       <div className="relative z-10 flex h-screen w-screen flex-col items-center justify-center gap-4">
-        <h1 className="text-5xl font-bold text-white drop-shadow-lg md:text-7xl lg:text-8xl">
+        <h1 className="font-mono text-2xl text-white drop-shadow-md md:text-3xl lg:text-4xl">
           vavanessa blog
         </h1>
-        <p className="font-mono text-sm text-white/80 drop-shadow-md md:text-base">
+        <p className="font-mono text-xs text-white/70 drop-shadow-sm md:text-sm">
           coming soon
         </p>
       </div>
