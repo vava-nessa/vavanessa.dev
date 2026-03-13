@@ -3,7 +3,7 @@ import { BackgroundGradientAnimation } from "@/components/ui/background-gradient
 /**
  * 📖 Homepage Component
  *
- * Displays "vavanessa blog" with "coming soon" text
+ * Displays "Vanessa Depraute Dev Blog Coming Soon" with a link to the portfolio
  * over an animated gradient background.
  */
 export default function Home() {
@@ -22,13 +22,18 @@ export default function Home() {
       interactive={true}
       containerClassName="z-0"
     >
-      <div className="relative z-10 flex h-screen w-screen flex-col items-center justify-center gap-4">
-        <h1 className="font-mono text-2xl text-white drop-shadow-md md:text-3xl lg:text-4xl">
-          vavanessa blog
+      <div className="relative z-10 flex h-screen w-screen flex-col items-center justify-center gap-6">
+        <h1 className="font-mono text-xl text-white drop-shadow-md text-center md:text-2xl lg:text-3xl">
+          Vanessa Depraute Dev Blog Coming Soon
         </h1>
-        <p className="font-mono text-xs text-white/70 drop-shadow-sm md:text-sm">
-          coming soon
-        </p>
+        <a
+          href="https://www.vanessadepraute.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono text-sm text-white/70 drop-shadow-sm underline underline-offset-4 hover:text-white/90 transition-colors md:text-base"
+        >
+          Vanessa Depraute
+        </a>
       </div>
     </BackgroundGradientAnimation>
   );
