@@ -1,5 +1,21 @@
 {
   "framework": "astro",
   "buildCommand": "pnpm build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/website", "destination": "/" },
+    { "source": "/website/:match*", "destination": "/:match*" }
+  ],
+  "redirects": [
+    { "source": "/about", "destination": "/", "permanent": false },
+    { "source": "/blog", "destination": "/", "permanent": false },
+    { "source": "/blog/:path*", "destination": "/", "permanent": false },
+    { "source": "/projects", "destination": "/", "permanent": false },
+    { "source": "/projects/:path*", "destination": "/", "permanent": false },
+    { "source": "/now", "destination": "/", "permanent": false },
+    { "source": "/uses", "destination": "/", "permanent": false },
+    { "source": "/newsletter", "destination": "/", "permanent": false },
+    { "source": "/rss.xml", "destination": "/", "permanent": false },
+    { "source": "/sitemap-index.xml", "destination": "/", "permanent": false }
+  ]
 }
