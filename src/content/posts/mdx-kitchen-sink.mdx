@@ -1,0 +1,85 @@
+---
+title: "MDX kitchen sink"
+description: "A published fixture post that exercises MDX expressions, local components, JSX markup, tables, code blocks, and Astro's MDX integration."
+publishedAt: 2026-05-04
+updatedAt: 2026-05-04
+tags: ["test", "mdx", "content"]
+lang: "en"
+---
+
+import MdxCallout from "@/components/content/MdxCallout.astro";
+import MdxMetric from "@/components/content/MdxMetric.astro";
+
+export const fixtureItems = ["frontmatter", "expressions", "components"];
+
+This MDX post checks that regular Markdown and JSX can live together in the content collection.
+
+<MdxCallout tone="warm">
+  <strong>MDX component check:</strong> this callout is imported from the Astro component tree and rendered inside MDX.
+</MdxCallout>
+
+## Expressions
+
+The fixture list has **{fixtureItems.length}** items:
+
+{fixtureItems.map((item) => (
+  <span className="mdx-pill" key={item}>
+    {item}
+  </span>
+))}
+
+## Component Grid
+
+<div className="mdx-grid">
+  <MdxMetric label="Mode" value="auto" />
+  <MdxMetric label="Formats" value="MD + MDX" />
+  <MdxMetric label="Build" value="static" />
+</div>
+
+## Markdown Still Works
+
+- **Strong text** inside MDX
+- _Emphasis_ inside MDX
+- `inline code` inside MDX
+- [Internal link](/blog)
+
+```tsx
+type Fixture = {
+  title: string;
+  visible: boolean;
+};
+
+export function FixtureBadge({ title, visible }: Fixture) {
+  return visible ? <span>{title}</span> : null;
+}
+```
+
+## JSX Table
+
+<table>
+  <thead>
+    <tr>
+      <th>Surface</th>
+      <th>Checked by this post</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Markdown</td>
+      <td>Headings, lists, code, links</td>
+    </tr>
+    <tr>
+      <td>MDX</td>
+      <td>Expressions, mapped JSX, local components</td>
+    </tr>
+  </tbody>
+</table>
+
+## Mixed HTML
+
+<details open>
+  <summary>Open details by default</summary>
+  The details element checks browser-native interactivity inside MDX.
+</details>
+
+Final MDX paragraph after the native details element.

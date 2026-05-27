@@ -1,0 +1,22 @@
+---
+/**
+ * @file MDX fixture metric component.
+ * @description
+ * 📖 Small display component used by the MDX kitchen-sink article to exercise
+ * imported Astro components, props, and theme-token styling inside MDX content.
+ *
+ * @exports MdxMetric
+ */
+
+interface Props {
+  label: string;
+  value: string;
+}
+
+const { label, value } = Astro.props;
+---
+
+<div class="mdx-metric">
+  <span>{label}</span>
+  <strong>{value}</strong>
+</div>

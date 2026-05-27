@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { ProjectEntry } from "@/lib/content";
+import { createCanonicalUrl } from "@/lib/site";
+
+/**
+ * @file Project detail layout.
+ * @description
+ * 📖 Presents project collection entries with consistent metadata, status, links,
+ * stack badges, and SoftwareApplication JSON-LD for search engines.
+ *
+ * @exports ProjectLayout
+ */
+
+interface Props {
+  project: ProjectEntry;
+}
+
+const { project } = Astro.props;
+const canonicalUrl = createCanonicalUrl(`/projects/${project.slug}`);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: project.data.name,
+  description: project.data.tagline,
+  url: canonicalUrl,
+  codeRepository: project.data.repo,
+  applicationCategory: "DeveloperApplication"
+};
+---
+
+<BaseLayout
+  title={project.data.name}
+  description={project.data.tagline}
+  pathname={`/projects/${project.slug}`}
+>
+  <article class="mx-auto max-w-4xl px-5 py-16">
+    <a href="/projects" class="text-sm text-ink-muted">Back to projects</a>
+    <header class="mt-8 border-b border-ink/10 pb-10">
+      <p class="font-mono text-xs uppercase tracking-[0.22em] text-cinnabar">
+        {project.data.status}
+      </p>
+      <h1 class="mt-4 font-serif text-5xl font-semibold leading-tight md:text-6xl">
+        {project.data.name}
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg leading-8 text-ink-muted">{project.data.tagline}</p>
+      <div class="mt-7 flex flex-wrap gap-2">
+        {project.data.stack.map((item) => <span class="rounded-full bg-wash px-3 py-1 text-xs text-ink-muted">{item}</span>)}
+      </div>
+      <div class="mt-7 flex flex-wrap gap-4 text-sm">
+        {project.data.repo && <a href={project.data.repo}>Repository</a>}
+        {project.data.demo && <a href={project.data.demo}>Demo</a>}
+        {project.data.npmPackage && <a href={`https://www.npmjs.com/package/${project.data.npmPackage}`}>npm</a>}
+      </div>
+    </header>
+    <div class="prose-content mt-10">
+      <slot />
+    </div>
+  </article>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>

@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+import ProjectLayout from "@/layouts/ProjectLayout.astro";
+
+/**
+ * @file Project dynamic route.
+ * @description
+ * 📖 Generates static pages for every project in the `projects` collection.
+ *
+ * @functions
+ * - getStaticPaths → Maps project slugs to static routes.
+ * @exports ProjectPage
+ */
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<ProjectLayout project={project}>
+  <Content />
+</ProjectLayout>

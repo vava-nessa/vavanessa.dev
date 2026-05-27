@@ -1,0 +1,56 @@
+---
+/**
+ * @file Giscus commenting component.
+ * @description
+ * 📖 Embeds GitHub Discussions-powered comments via giscus.app.
+ * Lightweight, ad-free, open-source alternative to Disqus.
+ * Requires GitHub Discussions to be enabled on the repository.
+ *
+ * @exports Giscus
+ */
+
+interface Props {
+  theme?: "light" | "dark" | "light_high-contrast" | "dark_high-contrast" | "dark_dimmed" | "preferred_color_scheme";
+  reactionsEnabled?: "0" | "1";
+  emitMetadata?: "0" | "1";
+  inputPosition?: "top" | "bottom";
+  lang?: string;
+}
+
+const {
+  theme = "preferred_color_scheme",
+  reactionsEnabled = "1",
+  emitMetadata = "0",
+  inputPosition = "bottom",
+  lang = "en"
+} = Astro.props;
+
+const repo = import.meta.env.PUBLIC_GISCUS_REPO;
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID;
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID;
+---
+
+{!repo || !repoId || !categoryId ? (
+  <div class="mx-auto max-w-3xl px-5 py-12 text-sm text-ink-muted">
+    <p>
+      Comments are powered by{" "}
+      <a href="https://giscus.app" target="_blank" rel="noopener noreferrer" class="underline">Giscus</a>.
+      To enable them, set the following environment variables:
+    </p>
+    <ul class="mt-2 list-inside list-disc space-y-1">
+      <li><code class="font-mono text-xs">PUBLIC_GISCUS_REPO</code> (e.g. <code class="font-mono text-xs">vava/vavanessa.dev</code>)</li>
+      <li><code class="font-mono text-xs">PUBLIC_GISCUS_REPO_ID</code></li>
+      <li><code class="font-mono text-xs">PUBLIC_GISCUS_CATEGORY_ID</code></li>
+    </ul>
+    <p class="mt-2">
+      Visit <a href="https://giscus.app" target="_blank" rel="noopener noreferrer" class="underline">giscus.app</a>{" "}
+      to generate these values.
+    </p>
+  </div>
+) : (
+  <div class="mx-auto max-w-3xl px-5 py-12">
+    <div class="giscus" data-repo={repo} data-repo-id={repoId} data-category-id={categoryId} data-theme={theme} data-reactions-enabled={reactionsEnabled} data-emit-metadata={emitMetadata} data-input-position={inputPosition} data-lang={lang}></div>
+  </div>
+)}
+
+<script is:inline src="https://giscus.app/client.js"></script>

@@ -1,0 +1,36 @@
+---
+import { site } from "@/lib/site";
+
+/**
+ * @file Primary site footer.
+ * @description
+ * 📖 Closes each page with lightweight identity links and a bamboo illustration.
+ * The decoration is intentionally quiet so the writing stays central.
+ *
+ * @exports Footer
+ */
+---
+
+<footer class="mt-24 border-t border-ink/10 bg-paper-soft">
+  <div class="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-[1fr_auto] md:items-end">
+    <div>
+      <p class="font-serif text-2xl font-semibold">{site.author}</p>
+      <p class="mt-2 max-w-xl text-sm leading-6 text-ink-muted">
+        Open-source tools, field notes, and build-in-public essays from a full-stack and iOS developer.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-4 text-sm text-ink-muted">
+        <a href={site.social.github}>GitHub</a>
+        <a href={site.social.twitter}>Twitter/X</a>
+        <a href="/rss.xml">RSS</a>
+      </div>
+    </div>
+    <img
+      src="/illustrations/bamboo.svg"
+      alt=""
+      width="180"
+      height="112"
+      loading="lazy"
+      class="max-w-[180px] opacity-75"
+    />
+  </div>
+</footer>

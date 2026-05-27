@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from "astro:content";
+import PostLayout from "@/layouts/PostLayout.astro";
+import { filterPublishedPosts } from "@/lib/content";
+
+/**
+ * @file Blog post dynamic route.
+ * @description
+ * 📖 Generates static pages for every published post in the `posts` collection.
+ * Draft entries stay available to authors locally but are excluded from routing.
+ *
+ * @functions
+ * - getStaticPaths → Maps published post slugs to static routes.
+ * @exports BlogPostPage
+ */
+
+export async function getStaticPaths() {
+  const posts = filterPublishedPosts(await getCollection("posts"));
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<PostLayout post={post}>
+  <Content />
+</PostLayout>

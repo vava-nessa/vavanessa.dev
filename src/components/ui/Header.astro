@@ -1,0 +1,49 @@
+---
+import { navigation, site } from "@/lib/site";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
+
+/**
+ * @file Primary site header.
+ * @description
+ * 📖 Renders the persistent navigation used by every layout. Links stay plain
+ * and predictable because this is an editorial site, not a SaaS dashboard.
+ *
+ * @exports Header
+ */
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="border-b border-border bg-card/80 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4">
+    <a href="/" class="font-serif text-2xl font-semibold text-ink no-underline">
+      {site.name}
+    </a>
+    <div class="flex flex-wrap items-center justify-end gap-3">
+      <nav aria-label="Main navigation" class="flex flex-wrap items-center justify-end gap-3 text-sm">
+        {
+          navigation.map((item) => {
+            const isActive =
+              item.href === "/" ? currentPath === "/" : currentPath.startsWith(item.href);
+
+            return (
+              <a
+                href={item.href}
+                aria-current={isActive ? "page" : undefined}
+                class:list={[
+                  "rounded-full px-3 py-1.5 no-underline transition",
+                  isActive
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                ]}
+              >
+                {item.label}
+              </a>
+            );
+          })
+        }
+      </nav>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>

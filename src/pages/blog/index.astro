@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { filterPublishedPosts, getUniqueTags, sortPostsByDate } from "@/lib/content";
+
+/**
+ * @file Blog index page.
+ * @description
+ * 📖 Lists published posts and all available tags. Drafts are filtered out here
+ * and in RSS so unfinished content never leaks into public pages.
+ *
+ * @exports BlogIndexPage
+ */
+
+const posts = sortPostsByDate(filterPublishedPosts(await getCollection("posts")));
+const tags = getUniqueTags(posts);
+---
+
+<BaseLayout title="Blog" description="Open-source project notes, build logs, and practical software essays.">
+  <section class="mx-auto max-w-5xl px-5 py-16">
+    <p class="font-mono text-xs uppercase tracking-[0.22em] text-cinnabar">Blog</p>
+    <h1 class="mt-4 font-serif text-6xl font-semibold">Notes from the workshop.</h1>
+    <p class="mt-5 max-w-2xl text-lg leading-8 text-ink-muted">
+      Project write-ups, hot takes, experiments, and durable notes that should outlive a social post.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-2">
+      {tags.map((tag) => <a href={`/blog/tags/${tag}`} class="rounded-full border border-ink/10 px-3 py-1 text-xs text-ink-muted no-underline">#{tag}</a>)}
+    </div>
+  </section>
+
+  <section class="mx-auto grid max-w-5xl gap-6 px-5 pb-16">
+    {posts.map((post) => (
+      <article class="border-t border-ink/10 pt-6">
+        <a href={`/blog/${post.slug}`} class="no-underline">
+          <p class="font-mono text-xs uppercase tracking-[0.18em] text-cinnabar">
+            {post.data.publishedAt.toLocaleDateString("en", { dateStyle: "medium" })}
+          </p>
+          <h2 class="mt-3 font-serif text-4xl font-semibold">{post.data.title}</h2>
+          <p class="mt-3 max-w-2xl text-sm leading-6 text-ink-muted">{post.data.description}</p>
+        </a>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

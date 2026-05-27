@@ -1,0 +1,20 @@
+---
+/**
+ * @file MDX fixture callout component.
+ * @description
+ * 📖 Small Astro component imported by the MDX kitchen-sink article to verify
+ * that MDX content can compose project components without adding React.
+ *
+ * @exports MdxCallout
+ */
+
+interface Props {
+  tone?: "neutral" | "warm";
+}
+
+const { tone = "neutral" } = Astro.props;
+---
+
+<aside class:list={["mdx-callout", tone === "warm" && "mdx-callout-warm"]}>
+  <slot />
+</aside>

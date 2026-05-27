@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" role="img" aria-label="Bamboo ink illustration">
+  <g fill="none" stroke="#4d6b4a" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 139c5-31 6-62 3-94" stroke-width="4"/>
+    <path d="M104 139c-3-42-1-83 7-122" stroke-width="4"/>
+    <path d="M141 138c6-38 8-76 5-115" stroke-width="4"/>
+    <path d="M68 96h14M70 62h10M101 103h12M105 69h11M137 91h15M139 52h12" stroke-width="2"/>
+    <path d="M80 70c24-22 48-17 63 1-27 6-48 7-63-1Z" fill="#4d6b4a" fill-opacity=".18" stroke-width="2"/>
+    <path d="M115 43c18-24 42-27 65-8-23 12-43 15-65 8Z" fill="#4d6b4a" fill-opacity=".18" stroke-width="2"/>
+    <path d="M58 111c-25-9-39-25-42-48 25 5 42 20 42 48Z" fill="#4d6b4a" fill-opacity=".18" stroke-width="2"/>
+    <path d="M150 113c21-21 45-26 72-14-20 17-43 22-72 14Z" fill="#4d6b4a" fill-opacity=".18" stroke-width="2"/>
+  </g>
+</svg>

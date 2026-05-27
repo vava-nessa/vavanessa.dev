@@ -1,0 +1,104 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+  filterPublishedPosts,
+  sortPostsByDate,
+  sortProjectsByOrder
+} from "@/lib/content";
+
+/**
+ * @file Home page.
+ * @description
+ * 📖 The front door for the editorial developer hub. It previews the latest
+ * writing, featured projects, public activity placeholders, and a newsletter
+ * placeholder without wiring later-phase providers yet.
+ *
+ * @exports HomePage
+ */
+
+const posts = sortPostsByDate(filterPublishedPosts(await getCollection("posts"))).slice(0, 3);
+const featuredProjects = sortProjectsByOrder(await getCollection("projects"))
+  .filter((project) => project.data.featured)
+  .slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+    <div>
+      <p class="font-mono text-xs uppercase tracking-[0.28em] text-cinnabar">
+        Build notes, open source, developer tools
+      </p>
+      <h1 class="mt-5 max-w-4xl font-serif text-6xl font-semibold leading-[0.98] text-ink md:text-8xl">
+        Vanessa's public dev notebook.
+      </h1>
+      <p class="mt-7 max-w-2xl text-lg leading-8 text-ink-muted">
+        Essays, project logs, demos, and practical notes from a full-stack and iOS developer building in public.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/blog" class="rounded-full bg-ink px-5 py-3 text-sm font-medium text-paper-soft no-underline">Read the blog</a>
+        <a href="/projects" class="rounded-full border border-ink/15 px-5 py-3 text-sm font-medium text-ink no-underline hover:bg-wash">Explore projects</a>
+      </div>
+    </div>
+    <div class="border-l border-ink/10 pl-6">
+      <p class="font-serif text-2xl font-semibold">Now shipping</p>
+      <p class="mt-3 text-sm leading-7 text-ink-muted">
+        Phase 1 focuses on a stable content engine: Astro, MDX, project pages, RSS, SEO, and a quiet visual direction inspired by ink and paper.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto grid max-w-6xl gap-8 px-5 py-12 lg:grid-cols-2">
+    <div>
+      <div class="mb-5 flex items-end justify-between gap-4">
+        <h2 class="font-serif text-4xl font-semibold">Latest notes</h2>
+        <a href="/blog" class="text-sm text-ink-muted">All posts</a>
+      </div>
+      <div class="grid gap-4">
+        {posts.map((post) => (
+          <article class="border-t border-ink/10 py-5">
+            <a href={`/blog/${post.slug}`} class="no-underline">
+              <h3 class="font-serif text-2xl font-semibold">{post.data.title}</h3>
+              <p class="mt-2 text-sm leading-6 text-ink-muted">{post.data.description}</p>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div>
+      <div class="mb-5 flex items-end justify-between gap-4">
+        <h2 class="font-serif text-4xl font-semibold">Featured projects</h2>
+        <a href="/projects" class="text-sm text-ink-muted">All projects</a>
+      </div>
+      <div class="grid gap-4">
+        {featuredProjects.map((project) => (
+          <article class="border-t border-ink/10 py-5">
+            <a href={`/projects/${project.slug}`} class="no-underline">
+              <p class="font-mono text-xs uppercase tracking-[0.18em] text-cinnabar">{project.data.status}</p>
+              <h3 class="mt-2 font-serif text-2xl font-semibold">{project.data.name}</h3>
+              <p class="mt-2 text-sm leading-6 text-ink-muted">{project.data.tagline}</p>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-12">
+    <div class="grid gap-6 border-y border-ink/10 py-10 md:grid-cols-3">
+      <div>
+        <h2 class="font-serif text-3xl font-semibold">Activity feed</h2>
+        <p class="mt-3 text-sm leading-6 text-ink-muted">GitHub, npm, and Twitter/X summaries will land after the core content system.</p>
+      </div>
+      <div>
+        <h2 class="font-serif text-3xl font-semibold">Newsletter</h2>
+        <p class="mt-3 text-sm leading-6 text-ink-muted">Provider selection is deferred. For now, RSS is the stable subscription surface.</p>
+      </div>
+      <div>
+        <h2 class="font-serif text-3xl font-semibold">Demos</h2>
+        <p class="mt-3 text-sm leading-6 text-ink-muted">Interactive project demos will be added per project once the pages are ready.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

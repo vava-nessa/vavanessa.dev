@@ -1,0 +1,67 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Giscus from "@/components/ui/Giscus.astro";
+import type { PostEntry } from "@/lib/content";
+import { createCanonicalUrl, site } from "@/lib/site";
+
+/**
+ * @file Blog post layout.
+ * @description
+ * 📖 Wraps a content collection entry with article metadata, dates, tags, and
+ * BlogPosting JSON-LD. Individual posts only need frontmatter and body content.
+ *
+ * @exports PostLayout
+ */
+
+interface Props {
+  post: PostEntry;
+}
+
+const { post } = Astro.props;
+const canonicalUrl = createCanonicalUrl(`/blog/${post.slug}`);
+const publishedAt = post.data.publishedAt.toISOString();
+const updatedAt = post.data.updatedAt?.toISOString() ?? publishedAt;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: publishedAt,
+  dateModified: updatedAt,
+  author: {
+    "@type": "Person",
+    name: site.author,
+    url: site.url
+  },
+  mainEntityOfPage: canonicalUrl
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  pathname={`/blog/${post.slug}`}
+  image={post.data.ogImage}
+  type="article"
+>
+  <article class="mx-auto max-w-3xl px-5 py-16">
+    <a href="/blog" class="text-sm text-ink-muted">Back to blog</a>
+    <header class="mt-8">
+      <p class="font-mono text-xs uppercase tracking-[0.22em] text-cinnabar">
+        {post.data.publishedAt.toLocaleDateString("en", { dateStyle: "long" })}
+      </p>
+      <h1 class="mt-4 font-serif text-5xl font-semibold leading-tight text-ink md:text-6xl">
+        {post.data.title}
+      </h1>
+      <p class="mt-5 text-lg leading-8 text-ink-muted">{post.data.description}</p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        {post.data.tags.map((tag) => <a href={`/blog/tags/${tag}`} class="rounded-full border border-ink/10 px-3 py-1 text-xs text-ink-muted no-underline">#{tag}</a>)}
+      </div>
+    </header>
+    <div class="prose-content mt-12">
+      <slot />
+    </div>
+    <Giscus />
+  </article>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>

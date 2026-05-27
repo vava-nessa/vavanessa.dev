@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# vavanessa.dev
 
-## Getting Started
+Personal developer site for Vanessa Depraute.
 
-First, run the development server:
+`vavanessa.dev` is the editorial and build-in-public home for open-source projects, practical software notes, and product experiments. It complements the formal CV site: this repo is for writing, demos, project context, RSS, and future launch surfaces.
+
+## Stack
+
+- Astro 5 for static-first pages.
+- Content Collections with Markdown and MDX.
+- TypeScript strict mode with Zod frontmatter validation.
+- Tailwind CSS v4 through the Vite plugin.
+- Fontsource for local fonts.
+- `@astrojs/rss` for `/rss.xml`.
+- `@astrojs/sitemap` for sitemap generation.
+- React integration is intentionally deferred until interactive demos begin.
+
+## Content Model
+
+Posts live in `src/content/posts/`.
+
+Projects live in `src/content/projects/`.
+
+Schemas are defined in `src/content/config.ts`. The site is English-first for phase 1 because distribution is expected through GitHub, Twitter/X, Reddit, Hacker News, and dev.to. The `lang` field already accepts `en`, `fr`, and `zh` so selected posts can get French or Chinese translations later without forcing multilingual routing before the writing pipeline exists.
+
+## Routes
+
+- `/` home with latest notes, featured projects, and placeholders for later feeds.
+- `/blog` public post index.
+- `/blog/[slug]` post detail pages.
+- `/blog/tags/[tag]` tag archive pages.
+- `/projects` project index.
+- `/projects/[slug]` project detail pages.
+- `/about`, `/now`, `/uses`, `/newsletter` static editorial pages.
+- `/rss.xml` RSS feed.
+
+## Development
+
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run the dev server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build and type-check:
 
-## Learn More
+```bash
+pnpm build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Preview the production build:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm preview
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Notes
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The current implementation covers PRD phase 1 plus a light visual foundation. The site supports light, dark, and auto theme modes through Tailwind CSS v4 tokens that follow shadcn's CSS-variable naming conventions; auto is the default and follows the user's system preference. Deferred systems include React-powered demos, search, Giscus comments, analytics, newsletter provider integration, GitHub/npm live cards, Twitter/X feed automation, generated OG images, and richer project demos.

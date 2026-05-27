@@ -1,0 +1,106 @@
+---
+/**
+ * @file Theme mode selector.
+ * @description
+ * 📖 Renders the light, dark, and auto controls for the site shell. The inline
+ * script keeps the selected preference in localStorage, resolves `auto` through
+ * the user's system preference, and updates the shadcn-compatible theme class
+ * before users navigate deeper into the site.
+ *
+ * @functions
+ * - applyThemePreference → Resolves and applies the selected color mode.
+ * @exports ThemeToggle
+ */
+
+const choices = [
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+  { value: "auto", label: "Auto" }
+] as const;
+---
+
+<div class="theme-toggle inline-flex items-center rounded-full border border-border bg-card p-1 text-xs text-muted-foreground">
+  {
+    choices.map((choice) => (
+      <button
+        type="button"
+        data-theme-choice={choice.value}
+        data-theme-toggle-button
+        aria-pressed={choice.value === "auto" ? "true" : "false"}
+        class="rounded-full px-3 py-1.5 font-medium transition hover:text-foreground"
+      >
+        {choice.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  type ThemePreference = "light" | "dark" | "auto";
+  type ResolvedTheme = "light" | "dark";
+
+  const storageKey = "vavanessa-theme";
+  const preferences = new Set<string>(["light", "dark", "auto"]);
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const buttons = Array.from(document.querySelectorAll("[data-theme-choice]"));
+
+  function isThemePreference(value: string | null | undefined): value is ThemePreference {
+    return typeof value === "string" && preferences.has(value);
+  }
+
+  function getPreference(): ThemePreference {
+    const storedPreference = window.localStorage.getItem(storageKey);
+    return isThemePreference(storedPreference) ? storedPreference : "auto";
+  }
+
+  function resolveTheme(preference: ThemePreference): ResolvedTheme {
+    return preference === "auto" ? (mediaQuery.matches ? "dark" : "light") : preference;
+  }
+
+  function applyThemePreference(preference: ThemePreference): void {
+    const resolvedTheme = resolveTheme(preference);
+    const root = document.documentElement;
+
+    root.dataset.themePreference = preference;
+    root.dataset.theme = resolvedTheme;
+    root.classList.toggle("dark", resolvedTheme === "dark");
+
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor instanceof HTMLMetaElement) {
+      themeColor.content = resolvedTheme === "dark" ? "#171312" : "#f7f0e4";
+    }
+
+    buttons.forEach((button) => {
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      const isPressed = button.dataset.themeChoice === preference;
+      button.setAttribute("aria-pressed", String(isPressed));
+    });
+  }
+
+  buttons.forEach((button) => {
+    if (!(button instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    button.addEventListener("click", () => {
+      const nextPreference = button.dataset.themeChoice;
+      if (!isThemePreference(nextPreference)) {
+        return;
+      }
+
+      window.localStorage.setItem(storageKey, nextPreference);
+      applyThemePreference(nextPreference);
+    });
+  });
+
+  mediaQuery.addEventListener("change", () => {
+    if (getPreference() === "auto") {
+      applyThemePreference("auto");
+    }
+  });
+
+  applyThemePreference(getPreference());
+</script>

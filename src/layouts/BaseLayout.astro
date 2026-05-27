@@ -1,0 +1,93 @@
+---
+import Footer from "@/components/ui/Footer.astro";
+import Header from "@/components/ui/Header.astro";
+import { createCanonicalUrl, site } from "@/lib/site";
+import "@/styles/global.css";
+
+/**
+ * @file Base Astro layout.
+ * @description
+ * 📖 Provides the HTML shell, shared navigation, canonical metadata, Open Graph,
+ * Twitter card tags, and default JSON-LD for the personal site. Page layouts pass
+ * focused metadata into this component instead of repeating SEO tags.
+ *
+ * @exports BaseLayout
+ */
+
+interface Props {
+  title?: string;
+  description?: string;
+  pathname?: string;
+  image?: string;
+  type?: "website" | "article";
+}
+
+const {
+  title = site.title,
+  description = site.description,
+  pathname = Astro.url.pathname,
+  image = "/og/default.png",
+  type = "website"
+} = Astro.props;
+
+const pageTitle = title === site.title ? title : `${title} | ${site.name}`;
+const canonicalUrl = createCanonicalUrl(pathname);
+const imageUrl = new URL(image, site.url).toString();
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.author,
+  url: site.url,
+  sameAs: [site.social.github, site.social.twitter]
+};
+---
+
+<!doctype html>
+<html lang="en" data-theme="light" data-theme-preference="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (() => {
+        const storageKey = "vavanessa-theme";
+        const preferences = ["light", "dark", "auto"];
+        const storedPreference = window.localStorage.getItem(storageKey);
+        const preference = preferences.includes(storedPreference) ? storedPreference : "auto";
+        const resolvedTheme =
+          preference === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : preference === "dark"
+              ? "dark"
+              : "light";
+        const root = document.documentElement;
+
+        root.dataset.themePreference = preference;
+        root.dataset.theme = resolvedTheme;
+        root.classList.toggle("dark", resolvedTheme === "dark");
+      })();
+    </script>
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:locale" content={site.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="theme-color" content="#f7f0e4" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+/**
+ * @file Uses page.
+ * @description
+ * 📖 Documents the current stack and setup. This starts as a placeholder and can
+ * grow into a durable reference for tooling decisions.
+ *
+ * @exports UsesPage
+ */
+---
+
+<BaseLayout title="Uses" description="Tools, stack, and setup notes from Vanessa Depraute.">
+  <section class="mx-auto max-w-3xl px-5 py-16">
+    <p class="font-mono text-xs uppercase tracking-[0.22em] text-cinnabar">Uses</p>
+    <h1 class="mt-4 font-serif text-6xl font-semibold">Tools and setup.</h1>
+    <div class="prose-content mt-8">
+      <h2>Site stack</h2>
+      <ul>
+        <li>Astro 5 for static-first pages.</li>
+        <li>Content Collections with MD and MDX.</li>
+        <li>Tailwind CSS v4 for styling.</li>
+        <li>RSS and sitemap generation at build time.</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+/**
+ * @file Now page.
+ * @description
+ * 📖 A lightweight status page for current work. It is intentionally easy to
+ * edit so it can stay fresh without becoming a production chore.
+ *
+ * @exports NowPage
+ */
+---
+
+<BaseLayout title="Now" description="What Vanessa is working on right now.">
+  <section class="mx-auto max-w-3xl px-5 py-16">
+    <p class="font-mono text-xs uppercase tracking-[0.22em] text-cinnabar">Now</p>
+    <h1 class="mt-4 font-serif text-6xl font-semibold">Current focus.</h1>
+    <div class="prose-content mt-8">
+      <ul>
+        <li>Rebuilding vavanessa.dev as an Astro-powered dev notebook.</li>
+        <li>Preparing first proper project write-ups for Kandown and related tools.</li>
+        <li>Keeping the content system simple enough to write often.</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
